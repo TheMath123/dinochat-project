@@ -2,5 +2,16 @@
 
 .container {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: flex;
   background: $gray;
+  width: 600px;
+
+  .chat {
+    width: 100%;
+  }
 }
