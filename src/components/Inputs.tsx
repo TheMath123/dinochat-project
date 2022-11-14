@@ -1,11 +1,11 @@
 import styles from '../styles/input.module.scss';
 
 type InputProps = {
-  onClick: () => void;
+  handlerSendMessage: () => void;
   onChange: (value: string) => void;
 };
 
-export function Input({ onClick, onChange }: InputProps) {
+export function Input({ handlerSendMessage, onChange }: InputProps) {
   return (
     <div className={styles.container}>
       <textarea
@@ -15,11 +15,7 @@ export function Input({ onClick, onChange }: InputProps) {
       ></textarea>
       <button
         className={styles.sendButton}
-        onClick={e => {
-          console.log('click');
-          e.preventDefault();
-          onClick();
-        }}
+        onClick={() => handlerSendMessage()}
       >
         Send
       </button>
