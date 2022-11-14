@@ -4,14 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  width: 100vw;
+  height: 100vh;
 
-.content {
-  display: flex;
-  background: $gray;
-  width: 600px;
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
 
-  .chat {
-    width: 100%;
+    gap: 16px;
   }
 }

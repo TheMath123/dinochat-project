@@ -1,0 +1,25 @@
+@import './colors.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+
+  background: $background-balloon;
+  border-radius: 16px 16px 0 16px;
+  padding: 5px 16px;
+  justify-content: center;
+
+  .message {
+    justify-content: flex-start;
+    font-size: 0.9rem;
+    align-self: flex-start;
+  }
+
+  .time {
+    align-self: flex-end;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: $black;
+  }
+}

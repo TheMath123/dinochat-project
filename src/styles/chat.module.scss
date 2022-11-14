@@ -1,0 +1,53 @@
+@import './colors.scss';
+
+.chat {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-height: 800px;
+  overflow-y: scroll;
+
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
+  border-radius: 16px;
+  background: $gray;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  &::-webkit-scrollbar-button {
+    width: 0px;
+    height: 16px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #2b2b2b;
+    border: none;
+    border-radius: 16px;
+    transition: all 0.3s;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background: #1a1a1a;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border: none;
+    border-radius: 16px;
+  }
+  &::-webkit-scrollbar-track:hover {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track:active {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}

@@ -8,12 +8,16 @@
   padding: 8px;
   gap: 16px;
   width: 100%;
+  background: $gray;
 
   .textArea {
     display: flex;
     border-radius: 16px;
     width: 100%;
     resize: none;
+    padding: 8px 16px;
+    font-size: 1rem;
+    outline: none;
   }
 
   .sendButton {
@@ -29,5 +33,16 @@
     font-size: 1.1rem;
     font-weight: 600;
     color: $white;
+
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
   }
 }

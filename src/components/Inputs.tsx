@@ -1,14 +1,28 @@
 import styles from '../styles/input.module.scss';
 
 type InputProps = {
-  onSubmit: () => void;
+  onClick: () => void;
+  onChange: (value: string) => void;
 };
 
-export function Input({ onSubmit }: InputProps) {
+export function Input({ onClick, onChange }: InputProps) {
   return (
-    <form className={styles.container} onSubmit={onSubmit}>
-      <textarea className={styles.textArea}></textarea>
-      <button className={styles.sendButton}>Send</button>
-    </form>
+    <div className={styles.container}>
+      <textarea
+        className={styles.textArea}
+        rows={1}
+        onChange={e => onChange(e.currentTarget.value)}
+      ></textarea>
+      <button
+        className={styles.sendButton}
+        onClick={e => {
+          console.log('click');
+          e.preventDefault();
+          onClick();
+        }}
+      >
+        Send
+      </button>
+    </div>
   );
 }
