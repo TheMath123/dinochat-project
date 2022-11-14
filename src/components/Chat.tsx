@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useMessages } from '../hooks/useMessages';
 import { Input } from './Inputs';
-// import { ReceivedBalloon } from './ReceivedBalloon';
-// import { SenderBalloon } from './SenderBalloon';
+import { ReceivedBalloon } from './ReceivedBalloon';
+import { SenderBalloon } from './SenderBalloon';
 import styles from '../styles/chat.module.scss';
 
 export function Chat() {
@@ -12,7 +12,7 @@ export function Chat() {
   return (
     <div className={styles.container}>
       <main className={styles.chat}>
-        {/* {messages.map((messageItem, index) => {
+        {messages.map((messageItem, index) => {
           console.log('map rodando');
           if (messageItem.author && messageItem.author !== undefined) {
             return (
@@ -31,7 +31,7 @@ export function Chat() {
               time={`${messageItem.time.getHours()}:${messageItem.time.getMinutes()}`}
             />
           );
-        })} */}
+        })}
       </main>
       <Input
         handlerSendMessage={() => sendMessage(contentMsg)}

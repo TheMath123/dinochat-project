@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 import { IMessagesContextProps, IChildrenProps, Message } from '../@types';
 
 export const MessagesContext = createContext({} as IMessagesContextProps);
@@ -8,34 +8,24 @@ type Messages = Message[];
 export function MessagesProvide({ children }: IChildrenProps) {
   const [messages, setMessages] = useState<Messages>([]);
 
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
-
-  function sendMessage(content: string) {
+  const sendMessage = (content: string) => {
     const newMessage: Message = {
       author: null,
       content,
       time: new Date(Date.now()),
     };
-    const list = [newMessage];
-    list.concat(messages);
-    console.log(list);
+    const list = [...messages, newMessage];
     setMessages(list);
-
-    // messages.push({
-    //   author: null,
-    //   content,
-    //   time: new Date(Date.now()),
-    // });
-  }
+  };
 
   function receiveMessage(message: Message) {
-    messages.push({
+    const newMessage: Message = {
       author: message.author,
       content: message.content,
       time: message.time,
-    });
+    };
+    const list = [...messages, newMessage];
+    setMessages(list);
   }
 
   return (
