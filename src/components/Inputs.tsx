@@ -10,13 +10,10 @@ export function Input({ handlerSendMessage, onChange }: InputProps) {
     <div className={styles.container}>
       <textarea
         className={styles.textArea}
-        rows={1}
+        rows={2}
         onChange={e => onChange(e.currentTarget.value)}
       ></textarea>
-      <button
-        className={styles.sendButton}
-        onClick={() => handlerSendMessage()}
-      >
+      <button className={styles.sendButton} onClick={handlerSendMessage}>
         Send
       </button>
     </div>
