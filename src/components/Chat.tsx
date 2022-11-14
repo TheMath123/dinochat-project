@@ -13,7 +13,6 @@ export function Chat() {
     <div className={styles.container}>
       <main className={styles.chat}>
         {messages.map((messageItem, index) => {
-          console.log('map rodando');
           if (messageItem.author && messageItem.author !== undefined) {
             return (
               <ReceivedBalloon
@@ -34,7 +33,10 @@ export function Chat() {
         })}
       </main>
       <Input
-        handlerSendMessage={() => sendMessage(contentMsg)}
+        handlerSendMessage={() => {
+          sendMessage(contentMsg);
+          setContentMsg('');
+        }}
         onChange={setContentMsg}
       />
     </div>

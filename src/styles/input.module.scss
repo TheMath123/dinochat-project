@@ -25,6 +25,7 @@
 
     padding: 8px 16px;
 
+    flex: 1;
     border: none;
     border-radius: 16px;
     background: $blue;
@@ -36,6 +37,19 @@
 
     cursor: pointer;
     transition: all 0.3s;
+
+    &:disabled {
+      background: $background;
+      cursor: default;
+
+      &:hover {
+        filter: none;
+      }
+
+      &:active {
+        transform: none;
+      }
+    }
 
     &:hover {
       filter: brightness(1.1);

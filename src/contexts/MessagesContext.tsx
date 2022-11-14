@@ -9,13 +9,15 @@ export function MessagesProvide({ children }: IChildrenProps) {
   const [messages, setMessages] = useState<Messages>([]);
 
   const sendMessage = (content: string) => {
-    const newMessage: Message = {
-      author: null,
-      content,
-      time: new Date(Date.now()),
-    };
-    const list = [...messages, newMessage];
-    setMessages(list);
+    if (content.trim() !== '' || content.trim().length > 0) {
+      const newMessage: Message = {
+        author: null,
+        content,
+        time: new Date(Date.now()),
+      };
+      const list = [...messages, newMessage];
+      setMessages(list);
+    }
   };
 
   function receiveMessage(message: Message) {
