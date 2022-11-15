@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 import { IMessagesContextProps, IChildrenProps, Message } from '../@types';
 import { socket } from '../services/socket';
 import { v5 as uuidv5, validate } from 'uuid';
@@ -13,12 +13,9 @@ export function MessagesProvide({ children }: IChildrenProps) {
   const [messages, setMessages] = useState<Messages>([]);
   const uuid = uuidv5(authorName, import.meta.env.VITE_UUID_GENERATE);
 
-  useEffect(() => {
-    socket.on('chat.message', receiveMessage);
-    socket.off('chat.message', receiveMessage);
-  }, [messages]);
+  socket.on('chat.message', receiveMessage);
 
-  const sendMessage = (content: string) => {
+  function sendMessage(content: string) {
     if (content.trim() !== '' || content.trim().length > 0) {
       // Create Object Message
       const newMessage: Message = {
@@ -35,12 +32,12 @@ export function MessagesProvide({ children }: IChildrenProps) {
       // Storage Local Messages
       setMessages(list);
     }
-  };
+  }
 
   function receiveMessage(message: Message) {
     console.log('Message Receive: ', message);
     // Validade id, if uuid patern
-    if (validate(message.id)) {
+    if (validate(message.id) && message.id !== uuid) {
       // create object message
       const newMessage: Message = {
         id: message.id,

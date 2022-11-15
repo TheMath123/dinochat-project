@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import styles from '../styles/input.module.scss';
 
 type InputProps = {
@@ -9,19 +9,27 @@ type InputProps = {
 export function Input({ handlerSendMessage, onChange }: InputProps) {
   const [content, setContent] = useState('');
 
-  const handlerTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handlerInputData = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.currentTarget.value);
     setContent(event.currentTarget.value);
   };
 
+  const handlerKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handlerSendMessage();
+      setContent('');
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <textarea
-        className={styles.textArea}
-        rows={2}
-        onChange={e => handlerTextArea(e)}
+      <input
+        className={styles.input}
+        placeholder="Type your message here"
+        onChange={e => handlerInputData(e)}
+        onKeyDownCapture={e => handlerKeyPress(e)}
         value={content}
-      ></textarea>
+      />
       <button
         disabled={content.trim().length <= 0}
         className={styles.sendButton}

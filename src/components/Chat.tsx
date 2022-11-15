@@ -3,6 +3,7 @@ import { useMessages } from '../hooks/useMessages';
 import { Input } from './Inputs';
 import { ReceivedBalloon } from './ReceivedBalloon';
 import { SenderBalloon } from './SenderBalloon';
+import { hourFormat } from '../helpers/DateHandler';
 
 import styles from '../styles/chat.module.scss';
 
@@ -14,14 +15,13 @@ export function Chat() {
     <div className={styles.container}>
       <main className={styles.chat}>
         {messages.map((messageItem, index) => {
-          const hourMessage = new Date(messageItem.time);
           if (messageItem.id !== uuid && messageItem.author) {
             return (
               <ReceivedBalloon
                 key={index}
                 message={messageItem.content}
                 author={messageItem.author}
-                time={`${hourMessage.getHours()}:${hourMessage.getMinutes()}`}
+                time={hourFormat(messageItem.time)}
               />
             );
           }
@@ -29,7 +29,7 @@ export function Chat() {
             <SenderBalloon
               key={index}
               message={messageItem.content}
-              time={`${hourMessage.getHours()}:${hourMessage.getMinutes()}`}
+              time={hourFormat(messageItem.time)}
             />
           );
         })}
