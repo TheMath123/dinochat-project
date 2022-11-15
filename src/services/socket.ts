@@ -1,9 +1,11 @@
-import { Manager } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
-const manager = new Manager('http://localhost:5555/connection', {
+const socket = io('http://localhost:5555', {
   reconnectionDelayMax: 1000,
 });
 
-const socket = manager.socket('/my-namespace');
+socket.on('connect', () => {
+  console.log('[IO] Connect - A new connection has been established');
+});
 
 export { socket };

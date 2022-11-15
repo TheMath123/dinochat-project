@@ -1,33 +1,63 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { IMessagesContextProps, IChildrenProps, Message } from '../@types';
+import { socket } from '../services/socket';
+import { v5 as uuidv5, validate } from 'uuid';
 
 export const MessagesContext = createContext({} as IMessagesContextProps);
 
 type Messages = Message[];
 
 export function MessagesProvide({ children }: IChildrenProps) {
+  const guestName = `Guest${Math.floor(Math.random() * 5000)}`;
+  const [authorName, setAuthorName] = useState<string>(guestName);
   const [messages, setMessages] = useState<Messages>([]);
+  const uuid = uuidv5(authorName, import.meta.env.VITE_UUID_GENERATE);
+
+  useEffect(() => {
+    socket.on('chat.message', receiveMessage);
+    socket.off('chat.message', receiveMessage);
+  }, [messages]);
 
   const sendMessage = (content: string) => {
     if (content.trim() !== '' || content.trim().length > 0) {
+      // Create Object Message
       const newMessage: Message = {
-        author: null,
+        id: uuid,
+        author: authorName,
         content,
-        time: new Date(Date.now()),
+        time: Date.now(),
       };
       const list = [...messages, newMessage];
+
+      // Send Remote Message
+      socket.emit('chat.message', newMessage);
+
+      // Storage Local Messages
       setMessages(list);
     }
   };
 
   function receiveMessage(message: Message) {
-    const newMessage: Message = {
-      author: message.author,
-      content: message.content,
-      time: message.time,
-    };
-    const list = [...messages, newMessage];
-    setMessages(list);
+    console.log('Message Receive: ', message);
+    // Validade id, if uuid patern
+    if (validate(message.id)) {
+      // create object message
+      const newMessage: Message = {
+        id: message.id,
+        author: message.author,
+        content: message.content,
+        time: message.time,
+      };
+      // storage local messages
+      const list = [...messages, newMessage];
+      setMessages(list);
+    }
+  }
+
+  function updateAuthorName(newName: string) {
+    if (newName.trim()) {
+      setAuthorName(newName);
+    }
   }
 
   return (
@@ -35,7 +65,9 @@ export function MessagesProvide({ children }: IChildrenProps) {
       value={{
         sendMessage,
         receiveMessage,
+        updateAuthorName,
         messages,
+        uuid,
       }}
     >
       {children}
