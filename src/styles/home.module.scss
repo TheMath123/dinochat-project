@@ -2,5 +2,16 @@
 
 .container {
   display: flex;
-  background: $gray;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+
+    gap: 16px;
+  }
 }
