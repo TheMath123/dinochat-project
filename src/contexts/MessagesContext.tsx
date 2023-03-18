@@ -23,8 +23,16 @@ export function MessagesProvide({ children }: ChildrenProps) {
   const uuid = uuidv5(author.name, import.meta.env.VITE_UUID_GENERATE);
 
   socket.on('chat.message', receiveMessage);
-  socket.on('chat.connect', connectionMessage);
-  socket.on('chat.disconnect', disconnectionMessage);
+  socket.on('chat.connect', data => connectOrDisconnectMessage(true, data));
+  socket.on('chat.disconnect', connectOrDisconnectMessage);
+
+  socket
+    .connect()
+    .emit('chat.connect', { content: `${author.name} entrou na sala.` });
+
+  // socket
+  //   .disconnect()
+  //   .emit('chat.disconnect', { content: `${author.name} saiu na sala.` });
 
   function sendMessage(content: string) {
     if (content.trim() !== '' || content.trim().length > 0) {
@@ -63,9 +71,12 @@ export function MessagesProvide({ children }: ChildrenProps) {
     }
   }
 
-  function connectionMessage() {}
-
-  function disconnectionMessage() {}
+  function connectOrDisconnectMessage(connect: boolean = false, data: any) {
+    if (connect) {
+      // console.log('chat.connect', data);
+    }
+    // console.log('chat.disconnect', data);
+  }
 
   function updateAuthorName(newName: string) {
     if (newName.trim()) {
