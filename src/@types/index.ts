@@ -2,14 +2,15 @@
 
 export interface Message {
   id: string;
-  author: string | null;
+  author?: string;
   content: string;
+  color?: string;
   time: number;
 }
 
 // <------------------------------------------>
 
-export interface IMessagesContextProps {
+export interface MessagesContextProps {
   //Context Props
   sendMessage: (content: string) => void;
   receiveMessage: (message: Message) => void;
@@ -20,7 +21,12 @@ export interface IMessagesContextProps {
 
 // <------------------------------------------>
 
-export interface IChildrenProps {
+export interface ChildrenProps {
   //Context Children Props
   children: React.ReactNode;
+}
+
+export interface UserProps {
+  name: string;
+  color?: string;
 }
