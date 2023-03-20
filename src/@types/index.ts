@@ -14,9 +14,9 @@ export interface MessagesContextProps {
   //Context Props
   sendMessage: (content: string) => void;
   receiveMessage: (message: Message) => void;
-  updateAuthorName: (newName: string) => void;
+  author: UserProps;
+  login: (newName: string) => void;
   messages: Message[];
-  uuid: string;
 }
 
 // <------------------------------------------>
@@ -27,6 +27,7 @@ export interface ChildrenProps {
 }
 
 export interface UserProps {
+  id: string;
   name: string;
   color?: string;
 }

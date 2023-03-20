@@ -9,13 +9,38 @@ import styles from '../styles/chat.module.scss';
 
 export function Chat() {
   const [contentMsg, setContentMsg] = useState<string>('');
-  const { messages, sendMessage, uuid } = useMessages();
+  const [userName, setUserName] = useState<string>('');
+  const { author, login, messages, sendMessage } = useMessages();
+
+  if (!author.name || author.name.length <= 1) {
+    return (
+      <div className={styles.box}>
+        <main className={styles.nameBox}>
+          <input
+            type="text"
+            placeholder="You name"
+            value={userName}
+            onChange={e => setUserName(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              if (userName.length >= 3) {
+                login(userName);
+              }
+            }}
+          >
+            Save
+          </button>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
       <main className={styles.chat}>
         {messages.map((messageItem, index) => {
-          if (messageItem.id !== uuid && messageItem.author) {
+          if (messageItem.id !== author.id && messageItem.author) {
             return (
               <ReceivedBalloon
                 key={index}
@@ -36,6 +61,8 @@ export function Chat() {
         })}
       </main>
       <Input
+        placeholder="Type your message here"
+        labelButton="Send"
         handlerSendMessage={() => {
           sendMessage(contentMsg);
           setContentMsg('');

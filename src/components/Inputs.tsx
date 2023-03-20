@@ -2,11 +2,18 @@ import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import styles from '../styles/input.module.scss';
 
 type InputProps = {
+  placeholder: string;
+  labelButton: string;
   handlerSendMessage: () => void;
   onChange: (value: string) => void;
 };
 
-export function Input({ handlerSendMessage, onChange }: InputProps) {
+export function Input({
+  placeholder,
+  labelButton,
+  handlerSendMessage,
+  onChange,
+}: InputProps) {
   const [content, setContent] = useState('');
 
   const handlerInputData = (event: ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +32,7 @@ export function Input({ handlerSendMessage, onChange }: InputProps) {
     <div className={styles.container}>
       <input
         className={styles.input}
-        placeholder="Type your message here"
+        placeholder={placeholder}
         onChange={e => handlerInputData(e)}
         onKeyDownCapture={e => handlerKeyPress(e)}
         value={content}
@@ -39,7 +46,7 @@ export function Input({ handlerSendMessage, onChange }: InputProps) {
           setContent('');
         }}
       >
-        Send
+        {labelButton}
       </button>
     </div>
   );
