@@ -2,7 +2,7 @@ export class LocalStorage {
   setData(key: string, value: string) {
     // Suport Local Storage
     if (typeof Storage !== 'undefined') {
-      localStorage.setItem('nome', 'João');
+      localStorage.setItem(key, value);
     }
   }
 

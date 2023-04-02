@@ -2,7 +2,7 @@ export class SessionStorage {
   setData(key: string, value: string) {
     // Suport Local Storage
     if (typeof Storage !== 'undefined') {
-      sessionStorage.setItem('nome', 'João');
+      sessionStorage.setItem(key, value);
     }
   }
 

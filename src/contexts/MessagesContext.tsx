@@ -34,15 +34,14 @@ export function MessagesProvide({ children }: ChildrenProps) {
 
   function login(name: string) {
     updateAuthorName(name);
-    updateAuthorId(uuidv5(name, import.meta.env.VITE_UUID_GENERATE));
-    saveCookie();
+    const uuid = uuidv5(name, import.meta.env.VITE_UUID_GENERATE);
+    updateAuthorId(uuid);
+    saveCookie(name, uuid);
   }
 
-  function saveCookie() {
-    console.log('Username', author.name);
-    localStorage.setData('username', author.name);
-    console.log('ID', author.id);
-    localStorage.setData('id', author.id);
+  function saveCookie(username: string, id: string) {
+    localStorage.setData('username', username);
+    localStorage.setData('id', id);
   }
 
   function getCookie() {

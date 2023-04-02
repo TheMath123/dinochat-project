@@ -8,8 +8,8 @@ import { DateHandler } from '../helpers/DateHandler';
 import styles from '../styles/chat.module.scss';
 
 export function Chat() {
-  const [contentMsg, setContentMsg] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
+  const [contentMsg, setContentMsg] = useState('');
+  const [userName, setUserName] = useState('');
   const { author, login, messages, sendMessage } = useMessages();
 
   if (!author.name || author.name.length <= 1) {
