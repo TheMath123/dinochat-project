@@ -3,7 +3,7 @@ import { MessagesContextProps, ChildrenProps, Message } from '../@types';
 import { socket } from '../services/socket';
 import { v5 as uuidv5, validate } from 'uuid';
 import { Colors } from '../helpers/Colors';
-import { Cookies } from '../helpers/Cookies';
+import { LocalStorage } from '../helpers/LocalStorage';
 import { User } from '../model/User';
 
 export const MessagesContext = createContext({} as MessagesContextProps);
@@ -11,7 +11,7 @@ export const MessagesContext = createContext({} as MessagesContextProps);
 type Messages = Message[];
 
 export function MessagesProvide({ children }: ChildrenProps) {
-  const cookies = new Cookies();
+  const localStorage = new LocalStorage();
   const color = Colors.generateLightColor();
   const [author, setAuthor] = useState(new User('', '', color));
   const [messages, setMessages] = useState<Messages>([]);
@@ -34,20 +34,20 @@ export function MessagesProvide({ children }: ChildrenProps) {
 
   function login(name: string) {
     updateAuthorName(name);
-    updateAuthorId(uuidv5(author.name, import.meta.env.VITE_UUID_GENERATE));
+    updateAuthorId(uuidv5(name, import.meta.env.VITE_UUID_GENERATE));
     saveCookie();
   }
 
   function saveCookie() {
-    cookies.deleteCookie('userName');
-    cookies.deleteCookie('id');
-    cookies.setCookie('username', author.name, 1);
-    cookies.setCookie('id', author.id, 1);
+    console.log('Username', author.name);
+    localStorage.setData('username', author.name);
+    console.log('ID', author.id);
+    localStorage.setData('id', author.id);
   }
 
   function getCookie() {
-    let name = cookies.getCookie('username');
-    let id = cookies.getCookie('id');
+    let name = localStorage.getData('username') ?? '';
+    let id = localStorage.getData('id') ?? '';
 
     if (name.length > 1 && name) {
       updateAuthorName(name);
@@ -79,6 +79,8 @@ export function MessagesProvide({ children }: ChildrenProps) {
   }
 
   function receiveMessage(message: Message) {
+    console.log(message);
+
     // Validade id, if uuid patern
     if (validate(message.id) && message.id !== author.id) {
       // create object message

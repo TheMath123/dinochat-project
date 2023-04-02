@@ -40,7 +40,16 @@ export function Chat() {
     <div className={styles.container}>
       <main className={styles.chat}>
         {messages.map((messageItem, index) => {
-          if (messageItem.id !== author.id && messageItem.author) {
+          if (messageItem.id === author.id) {
+            return (
+              <SenderBalloon
+                key={index}
+                message={messageItem.content}
+                time={DateHandler.hourFormat(messageItem.time)}
+              />
+            );
+          }
+          if (messageItem.author)
             return (
               <ReceivedBalloon
                 key={index}
@@ -50,14 +59,6 @@ export function Chat() {
                 time={DateHandler.hourFormat(messageItem.time)}
               />
             );
-          }
-          return (
-            <SenderBalloon
-              key={index}
-              message={messageItem.content}
-              time={DateHandler.hourFormat(messageItem.time)}
-            />
-          );
         })}
       </main>
       <Input
