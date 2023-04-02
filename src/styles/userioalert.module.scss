@@ -1,0 +1,33 @@
+@import './colors.scss';
+.container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+
+  background: $background;
+  border-radius: 1rem;
+  padding: 5px 16px;
+  margin-right: 3rem;
+  justify-content: center;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 5px;
+    color: $black;
+
+    .time {
+      font-size: 0.7rem;
+      font-weight: 400;
+    }
+  }
+
+  .message {
+    justify-content: flex-end;
+    font-size: 0.9rem;
+    align-self: flex-end;
+  }
+}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMessages } from '../hooks/useMessages';
 import { DateHandler } from '../helpers/DateHandler';
-import { Input, Login, ReceivedBalloon, SenderBalloon } from '.';
+import { Input, Login, ReceivedBalloon, SenderBalloon, UserIOAlert } from '.';
 
 import styles from '../styles/chat.module.scss';
 
@@ -26,7 +26,7 @@ export function Chat() {
               />
             );
           }
-          if (messageItem.author)
+          if (messageItem.author) {
             return (
               <ReceivedBalloon
                 key={index}
@@ -36,6 +36,11 @@ export function Chat() {
                 time={DateHandler.hourFormat(messageItem.time)}
               />
             );
+          }
+          <UserIOAlert
+            message={messageItem.content}
+            time={DateHandler.hourFormat(messageItem.time)}
+          />;
         })}
       </main>
       <Input

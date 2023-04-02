@@ -43,7 +43,7 @@ export function Input({
         disabled={content.trim().length <= 0}
         className={styles.sendButton}
         title="Send message"
-        aria-aria-label="Send message"
+        aria-label="Send message"
         onClick={e => {
           e.preventDefault();
           handlerSendMessage();

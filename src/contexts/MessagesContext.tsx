@@ -19,14 +19,8 @@ export function MessagesProvide({ children }: ChildrenProps) {
   socket.on('chat.connect', data => connectOrDisconnectMessage(true, data));
   socket.on('chat.disconnect', connectOrDisconnectMessage);
 
-  // socket.connect().br('connect', {
-  //   author,
-  //   message: `${author.name} entrou na sala.`,
-  // });
-
-  // socket.disconnect().emit('chat.disconnect', {
-  //   author,
-  //   message: `${author.name} saiu na sala.`,
+  // socket.connect().emit('chat.connect', {
+  //   message: `${author.name} joined the chat`,
   // });
 
   function login(name: string) {
@@ -101,11 +95,17 @@ export function MessagesProvide({ children }: ChildrenProps) {
     }
   }
 
-  function connectOrDisconnectMessage(connect: boolean = false, data: any) {
-    if (connect) {
-      console.log('chat.connect', data);
-    }
-    console.log('chat.disconnect', data);
+  function connectOrDisconnectMessage(connect: boolean = false, message: any) {
+    const newMessage: Message = {
+      id: '',
+      author: '',
+      content: message.content,
+      color: '',
+      time: message.time,
+    };
+
+    // storage local messages
+    setMessages([...messages, newMessage]);
   }
 
   function updateAuthorName(newName: string) {
