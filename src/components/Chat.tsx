@@ -8,9 +8,9 @@ import { DateHandler } from '../helpers/DateHandler';
 import styles from '../styles/chat.module.scss';
 
 export function Chat() {
+  const { author, login, messages, sendMessage } = useMessages();
   const [contentMsg, setContentMsg] = useState('');
   const [userName, setUserName] = useState('');
-  const { author, login, messages, sendMessage } = useMessages();
 
   if (!author.name || author.name.length <= 1) {
     return (
@@ -21,6 +21,11 @@ export function Chat() {
             placeholder="You name"
             value={userName}
             onChange={e => setUserName(e.target.value)}
+            onKeyDownCapture={e => {
+              if (e.key === 'Enter') {
+                login(userName);
+              }
+            }}
           />
           <button
             onClick={() => {

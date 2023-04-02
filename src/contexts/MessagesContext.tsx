@@ -12,15 +12,12 @@ type Messages = Message[];
 
 export function MessagesProvide({ children }: ChildrenProps) {
   const localStorage = new LocalStorage();
-  const color = Colors.generateLightColor();
-  const [author, setAuthor] = useState(new User('', '', color));
+  const [author, setAuthor] = useState(loadingData());
   const [messages, setMessages] = useState<Messages>([]);
 
   socket.on('chat.message', receiveMessage);
   socket.on('chat.connect', data => connectOrDisconnectMessage(true, data));
   socket.on('chat.disconnect', connectOrDisconnectMessage);
-
-  // getCookie();
 
   // socket.connect().br('connect', {
   //   author,
@@ -33,28 +30,26 @@ export function MessagesProvide({ children }: ChildrenProps) {
   // });
 
   function login(name: string) {
-    updateAuthorName(name);
-    const uuid = uuidv5(name, import.meta.env.VITE_UUID_GENERATE);
-    updateAuthorId(uuid);
-    saveCookie(name, uuid);
+    const uuid = uuidv5(
+      `${name}${Date.now()}`,
+      import.meta.env.VITE_UUID_GENERATE,
+    );
+    setAuthor(prevState => new User(uuid, name, prevState.color));
+    saveSession(name, uuid, author.color);
   }
 
-  function saveCookie(username: string, id: string) {
+  function saveSession(username: string, id: string, color: string) {
     localStorage.setData('username', username);
     localStorage.setData('id', id);
+    localStorage.setData('color', color);
   }
 
-  function getCookie() {
+  function loadingData() {
     let name = localStorage.getData('username') ?? '';
     let id = localStorage.getData('id') ?? '';
+    let color = localStorage.getData('color') ?? Colors.generateLightColor();
 
-    if (name.length > 1 && name) {
-      updateAuthorName(name);
-    }
-
-    if (id.length > 1 && id) {
-      updateAuthorId(id);
-    }
+    return new User(id, name, color);
   }
 
   function sendMessage(content: string) {
@@ -67,21 +62,20 @@ export function MessagesProvide({ children }: ChildrenProps) {
         content,
         time: Date.now(),
       };
-      const list = [...messages, newMessage];
 
       // Send Remote Message
       socket.emit('chat.message', newMessage);
 
       // Storage Local Messages
-      setMessages(list);
+      setMessages([...messages, newMessage]);
     }
   }
 
   function receiveMessage(message: Message) {
-    console.log(message);
+    if (message.id === author.id) return;
 
     // Validade id, if uuid patern
-    if (validate(message.id) && message.id !== author.id) {
+    if (validate(message.id)) {
       // create object message
       const newMessage: Message = {
         id: message.id,
@@ -90,9 +84,9 @@ export function MessagesProvide({ children }: ChildrenProps) {
         color: message.color,
         time: message.time,
       };
+
       // storage local messages
-      const list = [...messages, newMessage];
-      setMessages(list);
+      setMessages([...messages, newMessage]);
     }
   }
 
@@ -126,6 +120,7 @@ export function MessagesProvide({ children }: ChildrenProps) {
       value={{
         sendMessage,
         receiveMessage,
+        loadingData,
         author,
         login,
         messages,
