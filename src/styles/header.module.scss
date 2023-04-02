@@ -1,0 +1,15 @@
+@import './colors.scss';
+.container {
+  display: flex;
+  align-self: flex-end;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: $black;
+
+  .name {
+    font-weight: 600;
+  }
+}

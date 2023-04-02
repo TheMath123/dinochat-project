@@ -1,0 +1,12 @@
+.box {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+
+  .nameBox {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    max-width: 19rem;
+  }
+}
