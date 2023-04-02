@@ -14,9 +14,9 @@ export interface MessagesContextProps {
   //Context Props
   sendMessage: (content: string) => void;
   receiveMessage: (message: Message) => void;
-  loadingData: () => void;
   author: UserProps;
   login: (newName: string) => void;
+  logout: () => void;
   messages: Message[];
 }
 

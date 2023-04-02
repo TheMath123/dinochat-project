@@ -1,15 +1,34 @@
 @import './colors.scss';
 .container {
   display: flex;
-  align-self: flex-end;
-}
+  align-items: center;
+  justify-content: space-between;
 
-.title {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: $black;
+  .title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: $black;
 
-  .name {
-    font-weight: 600;
+    .name {
+      font-weight: 600;
+    }
+  }
+
+  .logoutButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px;
+    border-radius: 0;
+    background: none;
+    gap: 5px;
+
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: $gray;
+
+    .imgLogout {
+      height: 2rem;
+    }
   }
 }

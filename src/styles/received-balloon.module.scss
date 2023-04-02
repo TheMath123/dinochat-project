@@ -20,10 +20,13 @@
     gap: 5px;
     color: $black;
 
-    .author,
-    .time {
+    .author {
       font-size: 0.9rem;
       font-weight: 600;
+    }
+    .time {
+      font-size: 0.7rem;
+      font-weight: 400;
     }
   }
 

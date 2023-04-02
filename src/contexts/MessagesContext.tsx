@@ -12,7 +12,7 @@ type Messages = Message[];
 
 export function MessagesProvide({ children }: ChildrenProps) {
   const localStorage = new LocalStorage();
-  const [author, setAuthor] = useState(loadingData());
+  const [author, setAuthor] = useState(loadingSession());
   const [messages, setMessages] = useState<Messages>([]);
 
   socket.on('chat.message', receiveMessage);
@@ -38,18 +38,29 @@ export function MessagesProvide({ children }: ChildrenProps) {
     saveSession(name, uuid, author.color);
   }
 
+  function logout() {
+    setAuthor(new User('', '', ''));
+    cleanSession();
+  }
+
   function saveSession(username: string, id: string, color: string) {
     localStorage.setData('username', username);
     localStorage.setData('id', id);
     localStorage.setData('color', color);
   }
 
-  function loadingData() {
+  function loadingSession() {
     let name = localStorage.getData('username') ?? '';
     let id = localStorage.getData('id') ?? '';
     let color = localStorage.getData('color') ?? Colors.generateLightColor();
 
     return new User(id, name, color);
+  }
+
+  function cleanSession() {
+    localStorage.deleteData('username');
+    localStorage.deleteData('id');
+    localStorage.deleteData('color');
   }
 
   function sendMessage(content: string) {
@@ -120,9 +131,9 @@ export function MessagesProvide({ children }: ChildrenProps) {
       value={{
         sendMessage,
         receiveMessage,
-        loadingData,
         author,
         login,
+        logout,
         messages,
       }}
     >

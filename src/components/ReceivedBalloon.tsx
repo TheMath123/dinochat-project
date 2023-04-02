@@ -17,7 +17,7 @@ export function ReceivedBalloon({
   return (
     <div className={styles.container} style={{ background: color }}>
       <div className={styles.header}>
-        <span className={styles.time}>{time}</span> -
+        <span className={styles.time}>{time}</span>
         <h1 className={styles.author}>{author}</h1>
       </div>
       <p className={styles.message}>{message}</p>
